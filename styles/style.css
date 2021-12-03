@@ -1,0 +1,28 @@
+body{
+    background-color: gray;
+    height:100vh;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#container{
+    width: 500px;
+    height: 700px;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+#display{
+    border: 1px solid black;
+    height: 20px;
+    width: 80%;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+footer{
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+    background-color: #0d383d;
+    color: white;
+}
