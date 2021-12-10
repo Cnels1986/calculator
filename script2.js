@@ -6,10 +6,14 @@ const backspace = document.querySelector('.btnBackspace');
 const operations = document.querySelectorAll('.btnOperation');
 const decimal = document.querySelector('.btnDecimal');
 const equal = document.querySelector('.btnEquals');
+equal.disabled = true;
 
 let currentDisplay = document.querySelector('.currentDisplay');
 let outputDisplay = document.querySelector('.outputDisplay');
 let decimalPressed = false;
+let operationSelected = '';
+let firstOperand = 0;
+let secondOperand = 0;
 
 // **************
 
@@ -34,12 +38,34 @@ clear.addEventListener('click', () => {
     currentDisplay.textContent = 0;
     outputDisplay.textContent = 0;
     decimal.disabled = false;
+    decimalPressed = false;
     equal.disable = false;
+    operationSelected = ''
 });
 
-// operations.forEach((operation) => {
-//     console.log(operation.textContent);
-// })
+// **************
+
+operations.forEach((operation) => {
+    operation.addEventListener('click', () => {
+        console.log(operation.textContent + ' pressed');
+        operationSelected = operation.textContent;
+        setOperation(operation.textContent);
+    });
+});
+
+// **************
+
+equal.addEventListener('click', () => {
+    console.log('Equal button pressed');
+    if(operationSelected == '÷' && secondOperand == 0){
+        // poorly coded animation/transition to change to red to black if dividing by 0... need to improve
+        currentDisplay.classList.remove('makeRed');
+        currentDisplay.classList.remove('makeBlack');
+        currentDisplay.classList.add('makeRed');
+        alert('Can\'t divide by 0');
+        currentDisplay.classList.add('makeBlack');
+    }
+});
 
 // **************
 
@@ -57,3 +83,14 @@ function addDigit(num){
         currentDisplay.textContent = currentDisplay.textContent + num;
     }
 }
+
+function setOperation(operation){
+    firstOperand = currentDisplay.textContent;
+    currentDisplay.textContent = 0;
+    equal.disabled = false;
+    if(outputDisplay.textContent == 0){
+        outputDisplay.textContent = firstOperand + ' ' + operation;
+    } else {
+
+    }
+};

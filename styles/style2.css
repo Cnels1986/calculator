@@ -56,3 +56,12 @@ body{
 footer{
     text-align: center;
 }
+
+.makeRed{
+    color: red;
+}
+
+.makeBlack{
+    color: black;
+    transition: color 4s;
+}
