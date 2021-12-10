@@ -5,12 +5,12 @@ body{
 #calculator-container{
     width: 400px;
     height: 700px;
-    margin: 100px auto;
-    /* border: 1px solid black; */
+    margin: 100px auto 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    border-radius: 3px;
 }
 
 .btnRow{
@@ -23,7 +23,6 @@ body{
 .btnRow > button{
     width: 100px;
     border: 1px solid black;
-    border-radius: 0;
     font-family: 'Orbitron', sans-serif;
     font-size: 36px;
 }
@@ -32,7 +31,7 @@ body{
     background-color: white;
 }
 
-.equals{
+.btnEquals{
     flex-grow: 1;
 }
 
@@ -52,4 +51,8 @@ body{
 
 .currentDisplay{
     font-size: 36px;
+}
+
+footer{
+    text-align: center;
 }
