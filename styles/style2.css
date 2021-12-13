@@ -10,7 +10,7 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    border-radius: 3px;
+    border: 5px solid black;
 }
 
 .btnRow{
@@ -63,5 +63,10 @@ footer{
 
 .makeBlack{
     color: black;
-    transition: color 4s;
+    transition: color 3s;
+}
+
+button{
+    color: black;
+    background-color: rgb(200,200,200);
 }

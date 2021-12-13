@@ -69,6 +69,32 @@ equal.addEventListener('click', () => {
 
 // **************
 
+backspace.addEventListener('click', () => {
+    removeDigit(currentDisplay.textContent);
+});
+
+// **************
+
+function removeDigit(num){
+    if(num == 0){
+        console.log('nothing to remove');
+        return;
+    } else{
+        console.log('something to remove');
+        let digit = num.slice(-1);
+        // enables decimal button if its being removed from display
+        if(digit == '.'){
+            decimal.disabled = false;
+        }
+        currentDisplay.textContent = num.slice(0,-1);
+        if(currentDisplay.textContent == ''){
+            currentDisplay.textContent = 0;
+        }
+    }
+}
+
+// **************
+
 function addDigit(num){
     // first digit and no decimal needed
     if(currentDisplay.textContent == 0 && decimalPressed == false){
@@ -84,6 +110,8 @@ function addDigit(num){
     }
 }
 
+// **************
+
 function setOperation(operation){
     firstOperand = currentDisplay.textContent;
     currentDisplay.textContent = 0;
@@ -94,3 +122,5 @@ function setOperation(operation){
 
     }
 };
+
+// **************
