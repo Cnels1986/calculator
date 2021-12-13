@@ -12,46 +12,46 @@
         <title>Calculator - The Odin Project</title>
     </head>
     <body>
-        <div id='container'>
-            <!-- maybe 2 displays, 1 for the user input and 1 for the result... make it look like 1 whole display -->
-            <div id='display'>display</div>
-            <div id='buttonContainer'>
-                <div id='firstRow'>
-                    <button type="button" name="clear" class="btn" value="clear">Clear</button>
-                    <!-- optional -->
-                    <button type="button" name="negative" class="btn" value="negative">+/-</button>
-                    <!-- optional -->
-                    <button type="button" name="backspace" class="btn" value="backspace">backspace</button>
-                    <button type="button" name="divide" class="btn"  value="divide" >/</button>
-                </div>
-                <div id='secondRow'>
-                    <button type="button" name="seven" value="7" class="btn">7</button>
-                    <button type="button" name="eight"  value="8" class="btn">8</button>
-                    <button type="button" name="nine" class="btn"  value="9">9</button>
-                    <button type="button" name="multiply" class="btn"  value="multiply" >x</button>
-                </div>
-                <div id='thirdRow'>
-                    <button type="button" name="four" class="btn"  value="4" >4</button>
-                    <button type="button" name="five" class="btn" value="5" >5</button>
-                    <button type="button" name="six" class="btn"  value="6" >6</button>
-                    <button type="button" name="subtract" class="btn"  value="subtract" >-</button>
-                </div>
-                <div id='fourthRow'>
-                    <button type="button" name="one" class="btn" value="1" >1</button>
-                    <button type="button" name="two" class="btn" value="2">2</button>
-                    <button type="button" name="three" class="btn"
-                     value="3" >3</button>
-                    <button type="button" name="add" class="btn"  value="add" >+</button>
-                </div>
-                <div id='fifthRow'>
-                    <!-- optional -->
-                    <button type="button" name="decimal" class="btn"  value="decimal" >.</button>
-                    <button type="button" name="zero" class="btn"  value="0" >0</button>
-                    <!-- stretch equal button 2 spaces (only 3 buttons in row) -->
-                    <button type="button" name="equal" class="btn"  value="equal" >=</button>
-                </div>
+        <div id="calculator-container">
+            <div id="display">
+                <div class="outputDisplay">0</div>
+                <div class="currentDisplay">0</div>
+            </div>
+            <div class="btnRow">
+                <button class="btnClear">clr</button>
+                <button class="btnNegative">+/-</button>
+                <button class="btnBackspace">bs</button>
+                <button class="btnOperation">÷</button>
+            </div>
+
+            <div class="btnRow">
+                <button class="btnNumber">7</button>
+                <button class="btnNumber">8</button>
+                <button class="btnNumber">9</button>
+                <button class="btnOperation">x</button>
+            </div>
+
+            <div class="btnRow">
+                <button class="btnNumber">4</button>
+                <button class="btnNumber">5</button>
+                <button class="btnNumber">6</button>
+                <button class="btnOperation">-</button>
+            </div>
+
+            <div class="btnRow">
+                <button class="btnNumber">1</button>
+                <button class="btnNumber">2</button>
+                <button class="btnNumber">3</button>
+                <button class="btnOperation">+</button>
+            </div>
+
+            <div class="btnRow">
+                <button class="btnDecimal">.</button>
+                <button class="btnNumber">0</button>
+                <button class="btnEquals">=</button>
             </div>
         </div>
+
         <footer>&copy <a href="https://github.com/Cnels1986" target="_blank">Chris Nelson 2021</a></footer>
     </body>
 </html>

@@ -1,78 +1,160 @@
-// 1 = addition
-// 2 = subtraction
-// 3 = multiplication
-// 4 = division
-let num1;
-let num2;
-let operation = 0;          //0 will not be an operation
-let negative = false;       //will track if number should be negative
-let decimal = false;
-let total = 0;              //value that will be displayed
-// ??? use a string for the 2nd display that will store num and operators
+// setup the variables for the different calculator buttons
+const numbers = document.querySelectorAll('.btnNumber');
+const clear = document.querySelector('.btnClear');
+const neg = document.querySelector('.btnNegative');
+const backspace = document.querySelector('.btnBackspace');
+const operations = document.querySelectorAll('.btnOperation');
+const decimal = document.querySelector('.btnDecimal');
+const equal = document.querySelector('.btnEquals');
+equal.disabled = true;
 
+let currentDisplay = document.querySelector('.currentDisplay');
+let outputDisplay = document.querySelector('.outputDisplay');
+let decimalPressed = false;
+let operationSelected = '';
+let firstOperand = 0;
+let secondOperand = 0;
 
-const buttons = document.querySelectorAll('.btn');
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        // use a switch statement maybe
-        if(button.value == 'equal'){
-            console.log('equal');
-        } else if(button.value === 'add'){
-            operation = 1;
-            console.log('addition');
-        } else if(button.value === 'subtract'){
-            console.log('subtract');
-            operation = 2;
-        } else if(button.value === 'multiply'){
-            operation = 3;
-            console.log('multiply');
-        } else if(button.value === 'divide'){
-            operation = 4;
-            console.log('divide');
-        } else if(button.value === 'backspace'){
-            console.log('backspace');
-        } else if(button.value === 'negative'){
-            console.log('negative');
-        } else if(button.value === 'clear'){
-            reset();
-            console.log("Calculator reset");
-        } else if(button.value === 'decimal'){
-            console.log('decimal');
-        } else{
-            // will need to determine if multiple digits are being entered
-            if(num1 == undefined){
-                num1 = button.value;
-                console.log('num1: ' + num1);
-            } else if (operation != 0){
-                // an operation button has been selected, move to second number
-                num2 = button.value;
-                console.log('num2: ' + num2);
-            } else {
-
-            }
-        };
+numbers.forEach((number) => {
+    number.addEventListener('click', () => {
+        addDigit(number.textContent);
     });
 });
 
-function reset(){
-    num1 = undefined;
-    num2 = undefined;
-    operation = 0;
-    negative = false;
-    decimal = false;
-    total = 0;
-    // clear display
+decimal.addEventListener('click', () => {
+    disableDecimal();
+    addDigit('.');
+});
+
+clear.addEventListener('click', () => {
+    currentDisplay.textContent = 0;
+    outputDisplay.textContent = 0;
+    enableDecimal();
+    equal.disabled = false;
+    operationSelected = ''
+});
+
+neg.addEventListener('click', () => {
+    currentDisplay.textContent = Number(currentDisplay.textContent) * -1;
+});
+
+operations.forEach((operation) => {
+    operation.addEventListener('click', () => {
+        if(operationSelected != ''){
+            if(currentDisplay.textContent == '0'){
+                changeOperation(operation.textContent);
+            } else {
+                operate();
+                firstOperand = currentDisplay.textContent;
+                operationSelected = operation.textContent;
+                outputDisplay.textContent = currentDisplay.textContent + ' ' + operationSelected;
+                currentDisplay.textContent = 0;
+            }
+        } else{
+            operationSelected = operation.textContent;
+            setOperation(operation.textContent);
+        }
+    });
+});
+
+equal.addEventListener('click', () => {
+    operate();
+    equal.disabled = true;
+    firstOperand = currentDisplay.textContent;
+    operationSelected = '';
+});
+
+backspace.addEventListener('click', () => {
+    removeDigit(currentDisplay.textContent);
+});
+
+function removeDigit(num){
+    if(num == '0'){
+        return;
+    } else {
+        let digit = num.slice(-1);
+        // enables decimal button if its being removed from display
+        console.log('removing ' + digit);
+        if(digit == '.'){
+            enableDecimal();
+        }
+        currentDisplay.textContent = num.slice(0,-1);
+        if(currentDisplay.textContent == ''){
+            currentDisplay.textContent = 0;
+        }
+    }
 }
 
-function addDigit(num, digit){
-    if(num == undefined && decimal == true){
-        let temp = '0.' + digit;
-        return parseFloat(temp);
-    } else if(decimal == true){
-        console.log('adding dec');
-        let temp = num.toString();
-        return parseFloat(temp + '.' + digit);
+function addDigit(num){
+    // first digit and no decimal needed
+    if(currentDisplay.textContent == '0' && decimalPressed == false){
+        currentDisplay.textContent = num;
+    }
+    // first digit but number will be a decimal/float
+    else if(currentDisplay.textContent == '0' && decimalPressed == true){
+        currentDisplay.textContent = '0.';
+    }
+    // display already has digits
+    else{
+        currentDisplay.textContent = currentDisplay.textContent + num;
+    }
+}
+
+function setOperation(operation){
+    // adds a 0 at end of number if decimal was pressed and nothing else added
+    if(currentDisplay.textContent.slice(-1) == '.') {    addDigit(0);    }
+    firstOperand = currentDisplay.textContent;
+    currentDisplay.textContent = 0;
+    operationSelected = operation;
+    enableDecimal();
+    equal.disabled = false;
+    outputDisplay.textContent = firstOperand + ' ' + operation;
+};
+
+function changeOperation(operation){
+    outputDisplay.textContent = outputDisplay.textContent.slice(0,-2) + ' ' + operation;
+    operationSelected = operation;
+};
+
+function disableDecimal(){
+    decimal.disabled = true;
+    decimalPressed = true;
+}
+
+function enableDecimal(){
+    decimal.disabled = false;
+    decimalPressed = false;
+}
+
+function operate(){
+    if(currentDisplay.textContent.slice(-1) == '.') {    addDigit(0);    }
+    secondOperand = currentDisplay.textContent;
+    // prevents dividing by 0
+    if(operationSelected == '÷' && secondOperand == 0){
+        currentDisplay.classList.remove('makeRed');
+        currentDisplay.classList.remove('makeBlack');
+        currentDisplay.classList.add('makeRed');
+        alert('Can\'t divide by 0');
+        console.log('DIVIDING BY 0!!!');
+        currentDisplay.classList.add('makeBlack');
     } else{
-        return (num*10) + digit;
+        outputDisplay.textContent = outputDisplay.textContent + ' ' + secondOperand + ' = ';
+        switch(operationSelected) {
+            case '+':
+                currentDisplay.textContent = Math.round((Number(firstOperand) + Number(secondOperand)) * 1000) / 1000;
+                break;
+            case '-':
+                currentDisplay.textContent = Math.round((Number(firstOperand) - Number(secondOperand)) * 1000) / 1000;
+                break;
+            case 'x':
+                currentDisplay.textContent = Math.round((Number(firstOperand) * Number(secondOperand)) * 1000) / 1000;
+                break;
+            case '÷':
+                currentDisplay.textContent = Math.round((Number(firstOperand) / Number(secondOperand)) * 1000) / 1000;
+                break;
+            default:
+                console.log('something went wrong');
+                break;
+        }
     }
 }

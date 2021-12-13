@@ -1,28 +1,78 @@
 body{
-    background-color: gray;
-    height:100vh;
+    /* height:100vh; */
     font-family: 'Orbitron', sans-serif;
 }
-
-#container{
-    width: 500px;
+#calculator-container{
+    width: 400px;
     height: 700px;
-    margin: 0 auto;
+    margin: 100px auto 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    border: 5px solid black;
+}
+
+.btnRow{
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.btnRow > button{
+    width: 100px;
     border: 1px solid black;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+}
+
+.btnRow > button:hover{
+    background-color: white;
+}
+
+.btnEquals{
+    flex-grow: 1;
 }
 
 #display{
-    border: 1px solid black;
-    height: 20px;
-    width: 80%;
-    padding: 20px;
-    margin: 0 auto;
+    width: 400px;
+    display: flex;
+    min-height: 200px;
+    height: auto;
+    flex-direction: column;
+    text-align: right;
+    justify-content: space-around;
+    background: rgba(0,0,0,0.3);
+}
+
+.outputDisplay, .currentDisplay{
+    margin: 0px 40px;
+    overflow-wrap: anywhere;
+}
+
+.outputDisplay{
+    font-size: 22px;
+}
+
+.currentDisplay{
+    font-size: 36px;
 }
 
 footer{
-    width: 100%;
     text-align: center;
-    padding: 30px;
-    background-color: #0d383d;
-    color: white;
+}
+
+.makeRed{
+    color: red;
+}
+
+.makeBlack{
+    color: black;
+    transition: color 3s;
+}
+
+button{
+    color: black;
+    background-color: rgb(200,200,200);
 }
