@@ -15,76 +15,55 @@ let operationSelected = '';
 let firstOperand = 0;
 let secondOperand = 0;
 
-// **************
-
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
         addDigit(number.textContent);
     });
 });
 
-// **************
-
 decimal.addEventListener('click', () => {
-    decimalPressed = true;
+    disableDecimal();
     addDigit('.');
-    decimal.disabled = true;
 });
-
-// **************
 
 clear.addEventListener('click', () => {
-    console.log('Clearing calc');
     currentDisplay.textContent = 0;
     outputDisplay.textContent = 0;
-    decimal.disabled = false;
-    decimalPressed = false;
-    equal.disable = false;
+    enableDecimal();
+    equal.disabled = false;
     operationSelected = ''
 });
-
-// **************
 
 operations.forEach((operation) => {
     operation.addEventListener('click', () => {
         console.log(operation.textContent + ' pressed');
-        operationSelected = operation.textContent;
-        setOperation(operation.textContent);
+        if(operationSelected != ''){
+            changeOperation(operation.textContent);
+        } else{
+            operationSelected = operation.textContent;
+            setOperation(operation.textContent);
+        };
     });
 });
 
-// **************
-
 equal.addEventListener('click', () => {
-    console.log('Equal button pressed');
-    if(operationSelected == '÷' && secondOperand == 0){
-        // poorly coded animation/transition to change to red to black if dividing by 0... need to improve
-        currentDisplay.classList.remove('makeRed');
-        currentDisplay.classList.remove('makeBlack');
-        currentDisplay.classList.add('makeRed');
-        alert('Can\'t divide by 0');
-        currentDisplay.classList.add('makeBlack');
-    }
+    operate();
 });
-
-// **************
 
 backspace.addEventListener('click', () => {
     removeDigit(currentDisplay.textContent);
 });
 
-// **************
-
 function removeDigit(num){
-    if(num == 0){
+    if(num == '0'){
         console.log('nothing to remove');
         return;
     } else{
-        console.log('something to remove');
         let digit = num.slice(-1);
         // enables decimal button if its being removed from display
+        console.log('removing ' + digit);
         if(digit == '.'){
-            decimal.disabled = false;
+            enableDecimal();
         }
         currentDisplay.textContent = num.slice(0,-1);
         if(currentDisplay.textContent == ''){
@@ -93,15 +72,13 @@ function removeDigit(num){
     }
 }
 
-// **************
-
 function addDigit(num){
     // first digit and no decimal needed
-    if(currentDisplay.textContent == 0 && decimalPressed == false){
+    if(currentDisplay.textContent == '0' && decimalPressed == false){
         currentDisplay.textContent = num;
     }
     // first digit but number will be a decimal/float
-    else if(currentDisplay.textContent == 0 && decimalPressed == true){
+    else if(currentDisplay.textContent == '0' && decimalPressed == true){
         currentDisplay.textContent = '0.';
     }
     // display already has digits
@@ -110,17 +87,68 @@ function addDigit(num){
     }
 }
 
-// **************
-
 function setOperation(operation){
+    // adds a 0 at end of number if decimal was pressed and nothing else added
+    if(currentDisplay.textContent.slice(-1) == '.') {    addDigit(0);    }
     firstOperand = currentDisplay.textContent;
     currentDisplay.textContent = 0;
+    enableDecimal();
+    // decimal.disabled = false;
     equal.disabled = false;
-    if(outputDisplay.textContent == 0){
-        outputDisplay.textContent = firstOperand + ' ' + operation;
-    } else {
-
-    }
+    outputDisplay.textContent = firstOperand + ' ' + operation;
 };
 
-// **************
+function changeOperation(operation){
+    outputDisplay.textContent = outputDisplay.textContent.slice(0,-2) + ' ' + operation;
+    operationSelected = operation;
+};
+
+function disableDecimal(){
+    decimal.disabled = true;
+    decimalPressed = true;
+}
+
+function enableDecimal(){
+    decimal.disabled = false;
+    decimalPressed = false;
+}
+
+function operate(){
+    if(currentDisplay.textContent.slice(-1) == '.') {    addDigit(0);    }
+    secondOperand = currentDisplay.textContent;
+    // prevents dividing by 0
+    if(operationSelected == '÷' && secondOperand == 0){
+        currentDisplay.classList.remove('makeRed');
+        currentDisplay.classList.remove('makeBlack');
+        currentDisplay.classList.add('makeRed');
+        alert('Can\'t divide by 0');
+        console.log('DIVIDING BY 0!!!');
+        currentDisplay.classList.add('makeBlack');
+    } else{
+        outputDisplay.textContent = outputDisplay.textContent + ' ' + secondOperand + ' = ';
+        console.log('first operand = ' + firstOperand);
+        console.log('operation = ' + operationSelected);
+        console.log('second operand = ' + secondOperand);
+        switch(operationSelected) {
+            case '+':
+                console.log('addition');
+                currentDisplay.textContent = Number(firstOperand) + Number(secondOperand);
+                break;
+            case '-':
+                currentDisplay.textContent = Number(firstOperand) - Number(secondOperand);
+                console.log('subtraction');
+                break;
+            case 'x':
+                currentDisplay.textContent = Number(firstOperand) * Number(secondOperand);
+                console.log('multiplication');
+                break;
+            case '÷':
+                currentDisplay.textContent = Number(firstOperand) / Number(secondOperand);
+                console.log('division');
+                break;
+            default:
+                console.log('operation failed');
+                break;
+        }
+    }
+}
